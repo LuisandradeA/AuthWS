@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 
 @Path("/auth")
@@ -28,6 +29,8 @@ public class Auth implements IAuth {
 			@QueryParam("password") String password, 
 			@QueryParam("ip") String ip
 			) {
+				addLog(username, ip, "Cadastro");
+		
 				if (username != null) {
 					if (passwordIsSecure(password)) {
 						User user = new User(username,password);
@@ -48,6 +51,9 @@ public class Auth implements IAuth {
 			@QueryParam("password") String password, 
 			@QueryParam("ip") String ip
 			) {
+				
+				addLog(username, ip, "Login");
+				
 				if (username != null) {
 					if(users.containsKey(username)) {
 						if (users.get(username).getPassword() == password) {
@@ -61,9 +67,13 @@ public class Auth implements IAuth {
 	
 	
 	@GET
-	
+	@Path("/users")
+	@Produces({MediaType.APPLICATION_JSON })
 	public List<String> showUsers() {
-		return null;
+		List<String> allUsers = new ArrayList<String>();
+		allUsers.addAll(users.keySet());
+		
+		return allUsers;
 	}
 	
 	
