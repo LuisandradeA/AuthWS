@@ -76,6 +76,13 @@ public class Auth implements IAuth {
 		return allUsers;
 	}
 	
+	@GET
+	@Path("/teste")
+	@Produces({MediaType.TEXT_PLAIN})
+	public String teste() {
+		return "Hello World";
+	}
+	
 	
 	private void addLog (String username, String ip_adress, String acess_type) {
 		List<String> line = Arrays.asList(ip_adress + " _ " + username + " _ " + acess_type);
